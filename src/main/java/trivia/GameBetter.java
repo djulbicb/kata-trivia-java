@@ -10,11 +10,11 @@ import static trivia.Logger.log;
 
 // REFACTOR ME
 public class GameBetter implements IGame {
-   StepManager moveMng = new StepManager();
-   QuestionManager questionMng = new QuestionManager();
+   final StepManager moveMng = new StepManager();
+   final QuestionManager questionMng = new QuestionManager();
 
-   PlayerManager playerMng = new PlayerManager(moveMng);
-   PlacesManager placesMng = new PlacesManager(moveMng);
+   final PlayerManager playerMng = new PlayerManager(moveMng);
+   final PlacesManager placesMng = new PlacesManager(moveMng);
 
    private boolean canPlayerGetOutOfPenaltyBox;
 

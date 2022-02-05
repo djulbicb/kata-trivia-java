@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerManager {
-    List<Player> players = new ArrayList<>();
-    StepManager stepManager;
+    final List<Player> players = new ArrayList<>();
+    final StepManager stepManager;
 
     public PlayerManager(StepManager stepManager) {
         this.stepManager = stepManager;

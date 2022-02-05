@@ -4,7 +4,7 @@ public class PlacesManager {
     
     private final StepManager stepManager;
     // private List<Integer> places = new ArrayList();
-    int[] places = new int[6];
+    final int[] places = new int[6];
 
     public PlacesManager(StepManager stepManager) {
         this.stepManager = stepManager;

@@ -14,7 +14,7 @@ public class Player {
         return name;
     }
 
-    public int purseIncrement() {
-        return purse += 1;
+    public void purseIncrement() {
+        purse += 1;
     }
 }

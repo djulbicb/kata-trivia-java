@@ -5,10 +5,10 @@ import java.util.LinkedList;
 import static trivia.Logger.log;
 
 public class QuestionManager {
-    LinkedList popQuestions = new LinkedList();
-    LinkedList scienceQuestions = new LinkedList();
-    LinkedList sportsQuestions = new LinkedList();
-    LinkedList rockQuestions = new LinkedList();
+    final LinkedList popQuestions = new LinkedList();
+    final LinkedList scienceQuestions = new LinkedList();
+    final LinkedList sportsQuestions = new LinkedList();
+    final LinkedList rockQuestions = new LinkedList();
 
     public QuestionManager() {
         for (int i = 0; i < 50; i++) {
