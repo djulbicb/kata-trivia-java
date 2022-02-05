@@ -1,6 +1,5 @@
 package trivia.manager;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,14 +10,17 @@ public class PlacesManager {
     
     private final MoveManager moveManager;
     private List<Integer> places = new ArrayList();
-    @Getter @Setter
-    private int currentPlace;
+    private int currentIndex;
 
     public PlacesManager(MoveManager moveManager) {
         this.moveManager = moveManager;
     }
 
-    public String GetGategory() {
+    public void addEmptyPlace() {
+        places.add(0);
+    }
+
+    public String getCategory() {
         int currentMove = moveManager.getCurrentMove();
         if (currentMove == 0) return "Pop";
         if (currentMove == 4) return "Pop";
@@ -33,10 +35,12 @@ public class PlacesManager {
     }
 
     public void addRollAndGet(int roll) {
-        setCurrentPlace(getCurrentPlace() + roll);
+        int currentMove = moveManager.getCurrentMove();
+//
+//        places[currentMove] = places[currentMove] + roll;
+//        if (places[currentMove] > 11) places[currentMove] = places[currentMove] - 12;
 
-        if (getCurrentPlace() > 11) {
-            setCurrentPlace(getCurrentPlace() - 12);
-        };
     }
+
+
 }

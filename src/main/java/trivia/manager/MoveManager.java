@@ -15,7 +15,7 @@ public class MoveManager {
         }
     }
 
-    public void increaseMoveLimit() {
+    public void increaseTotalMoveCount() {
         totalMoveCount++;
     }
 }

@@ -18,9 +18,10 @@ public class GameBetter implements IGame {
    boolean isGettingOutOfPenaltyBox;
 
    public boolean add(String playerName) {
-      mManager.increaseMoveLimit();
+      mManager.increaseTotalMoveCount();
 
-      pManager.addPlayer(Player.builder().name(playerName).build());
+      Player newPlayer = Player.builder().name(playerName).build();
+      pManager.addPlayer(newPlayer);
 
       int playerCount = pManager.howManyPlayers();
 
