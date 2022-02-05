@@ -1,25 +1,27 @@
-package trivia.model;
+package trivia.manager;
+
+import trivia.model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerManager {
     List<Player> players = new ArrayList<>();
-    int currentPlayer = 0;
+    MoveManager moveManager;
+
+    public PlayerManager(MoveManager moveManager) {
+        this.moveManager = moveManager;
+    }
 
     public int howManyPlayers() {
         return players.size();
     }
 
     public Player getCurrent() {
-        return players.get(currentPlayer);
+        return players.get(moveManager.getCurrentMove());
     }
 
     public void addPlayer(Player player) {
         players.add(player);
-    }
-
-    public void goNextPlayer() {
-        currentPlayer++;
     }
 }

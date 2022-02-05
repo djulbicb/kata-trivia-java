@@ -1,4 +1,4 @@
-package trivia.model;
+package trivia.manager;
 
 import java.util.LinkedList;
 
