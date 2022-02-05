@@ -9,6 +9,8 @@ public class PlayerManager {
     List<Player> players = new ArrayList<>();
     MoveManager moveManager;
 
+    boolean isGettingOutOfPenaltyBox;
+
     public PlayerManager(MoveManager moveManager) {
         this.moveManager = moveManager;
     }
@@ -23,5 +25,18 @@ public class PlayerManager {
 
     public void addPlayer(Player player) {
         players.add(player);
+    }
+
+    public boolean didCurrentPlayerWin() {
+        Player current = getCurrent();
+        return !(current.getPurse() == 6);
+    }
+
+    public void canPlayerEscapeFromJail(boolean b) {
+        isGettingOutOfPenaltyBox = b;
+    }
+
+    public boolean isGettingOutOfPenaltyBox() {
+        return isGettingOutOfPenaltyBox;
     }
 }

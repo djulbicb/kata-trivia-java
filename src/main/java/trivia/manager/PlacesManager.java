@@ -1,11 +1,5 @@
 package trivia.manager;
 
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class PlacesManager {
     
     private final MoveManager moveManager;
@@ -20,7 +14,7 @@ public class PlacesManager {
 //        places.add(0);
 //    }
 
-    public String getCategory() {
+    public String getCurrentPlaceCategory() {
         if (getCurrent() == 0) return "Pop";
         if (getCurrent() == 4) return "Pop";
         if (getCurrent() == 8) return "Pop";
@@ -33,7 +27,7 @@ public class PlacesManager {
         return "Rock";
     }
 
-    public void addRollAndGet(int roll) {
+    public void addRoledNumber(int roll) {
         int currentMove = moveManager.getCurrentMove();
 
         places[currentMove] = places[currentMove] + roll;
