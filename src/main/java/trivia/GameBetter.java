@@ -54,7 +54,7 @@ public class GameBetter implements IGame {
    }
 
    private void logCurrentQuestion(Player currentPlayer) {
-      log(currentPlayer + "'s new location is " + placesMng.getCurrent());
+      log(currentPlayer + "'s new location is " + placesMng.getCurrentPlace());
       log("The category is " + placesMng.getCurrentPlaceCategory());
 
       questionMng.askQuestion(placesMng.getCurrentPlaceCategory());
