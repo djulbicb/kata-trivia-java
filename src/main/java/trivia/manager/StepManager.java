@@ -7,7 +7,7 @@ public class StepManager {
     int currentStep = 0;
     int maximumStepCount = 0;
 
-    public void nextMove() {
+    public void nextStep() {
         currentStep++;
 
         if (currentStep == maximumStepCount) {

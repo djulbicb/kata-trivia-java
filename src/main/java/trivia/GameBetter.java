@@ -73,13 +73,10 @@ public class GameBetter implements IGame {
          player.purseIncrement();
          log(playerMng.getCurrentPlayer() + " now has " + player.getPurse() + " Gold Coins.");
 
-         boolean hasCurrentPlayerWon = playerMng.didCurrentPlayerWin();
-
-         moveMng.nextMove();
-         return hasCurrentPlayerWon;
+         return checkIfGameRunningAndMoveToNextStep();
       }
       else if (player.isInPenaltyBox()) {
-         moveMng.nextMove();
+         moveMng.nextStep();
          return true;
       }
       else {
@@ -88,12 +85,14 @@ public class GameBetter implements IGame {
          player.purseIncrement();
          log(playerMng.getCurrentPlayer() + " now has " + player.getPurse() + " Gold Coins.");
 
-         boolean hasCurrentPlayerWon = playerMng.didCurrentPlayerWin();
-
-         moveMng.nextMove();
-
-         return hasCurrentPlayerWon;
+         return checkIfGameRunningAndMoveToNextStep();
       }
+   }
+
+   private boolean checkIfGameRunningAndMoveToNextStep() {
+      boolean isGameRunning = isGameOver();
+      moveMng.nextStep();
+      return isGameRunning;
    }
 
    public boolean wrongAnswer() {
@@ -103,7 +102,12 @@ public class GameBetter implements IGame {
       Player current = playerMng.getCurrentPlayer();
       current.setInPenaltyBox(true);
 
-      moveMng.nextMove();
+      moveMng.nextStep();
       return true;
+   }
+
+   public boolean isGameOver() {
+      Player current = playerMng.getCurrentPlayer();
+      return !(current.getPurse() >= 6);
    }
 }

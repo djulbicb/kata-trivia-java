@@ -25,9 +25,4 @@ public class PlayerManager {
         Player newPlayer = Player.builder().name(playerName).build();
         players.add(newPlayer);
     }
-
-    public boolean didCurrentPlayerWin() {
-        Player current = getCurrentPlayer();
-        return !(current.getPurse() == 6);
-    }
 }
