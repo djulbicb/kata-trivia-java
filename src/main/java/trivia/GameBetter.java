@@ -14,20 +14,17 @@ public class GameBetter implements IGame {
    QuestionManager qManager = new QuestionManager();
    
    int[] places = new int[6];
-   int[] purses = new int[6];
-   boolean[] inPenaltyBox = new boolean[6];
 
    boolean isGettingOutOfPenaltyBox;
 
    public boolean add(String playerName) {
       mManager.increaseMoveLimit();
+
       pManager.addPlayer(Player.builder().name(playerName).build());
 
       int playerCount = pManager.howManyPlayers();
 
       places[playerCount] = 0;
-      purses[playerCount] = 0;
-      inPenaltyBox[playerCount] = false;
 
       log(playerName + " was added");
       log("They are player number " + playerCount);
@@ -39,7 +36,8 @@ public class GameBetter implements IGame {
       log("They have rolled a " + roll);
 
       int currentMove = mManager.getCurrentMove();
-      if (inPenaltyBox[currentMove]) {
+      Player current = pManager.getCurrent();
+      if (current.isInPenaltyBox()) {
          if (roll % 2 != 0) {
             isGettingOutOfPenaltyBox = true;
 
@@ -51,7 +49,7 @@ public class GameBetter implements IGame {
                                + "'s new location is "
                                + places[currentMove]);
             log("The category is " + currentCategory());
-            askQuestion();
+            qManager.askQuestion(currentCategory());
          } else {
             log(pManager.getCurrent() + " is not getting out of the penalty box");
             isGettingOutOfPenaltyBox = false;
@@ -66,22 +64,10 @@ public class GameBetter implements IGame {
                             + "'s new location is "
                             + places[currentMove]);
          log("The category is " + currentCategory());
-         askQuestion();
+         qManager.askQuestion(currentCategory());
       }
 
    }
-
-   private void askQuestion() {
-      if (currentCategory() == "Pop")
-         log(qManager.removePop());
-      if (currentCategory() == "Science")
-         log(qManager.removeScience());
-      if (currentCategory() == "Sports")
-         log(qManager.removeSports());
-      if (currentCategory() == "Rock")
-         log(qManager.removeRock());
-   }
-
 
    private String currentCategory() {
       int currentMove = mManager.getCurrentMove();
@@ -99,14 +85,15 @@ public class GameBetter implements IGame {
 
    public boolean wasCorrectlyAnswered() {
       int currentMove = mManager.getCurrentMove();
+      Player player = pManager.getCurrent();
 
-      if (inPenaltyBox[currentMove]) {
+      if (player.isInPenaltyBox()) {
          if (isGettingOutOfPenaltyBox) {
             log("Answer was correct!!!!");
-            purses[currentMove]++;
+            player.addToPurse();
             log(pManager.getCurrent()
                                + " now has "
-                               + purses[currentMove]
+                               + player.getPurse()
                                + " Gold Coins.");
 
             boolean winner = didPlayerWin();
@@ -122,10 +109,10 @@ public class GameBetter implements IGame {
       } else {
 
          log("Answer was corrent!!!!");
-         purses[currentMove]++;
+         player.addToPurse();
          log(pManager.getCurrent()
                             + " now has "
-                            + purses[currentMove]
+                            + player.getPurse()
                             + " Gold Coins.");
 
          boolean winner = didPlayerWin();
@@ -139,7 +126,8 @@ public class GameBetter implements IGame {
       log("Question was incorrectly answered");
       log(pManager.getCurrent() + " was sent to the penalty box");
       int currentMove = mManager.getCurrentMove();
-      inPenaltyBox[currentMove] = true;
+      Player current = pManager.getCurrent();
+      current.setInPenaltyBox(true);
 
       mManager.next();
       return true;
@@ -147,6 +135,7 @@ public class GameBetter implements IGame {
 
 
    private boolean didPlayerWin() {
-      return !(purses[mManager.getCurrentMove()] == 6);
+      Player current = pManager.getCurrent();
+      return !(current.getPurse() == 6);
    }
 }

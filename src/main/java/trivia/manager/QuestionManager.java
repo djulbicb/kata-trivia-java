@@ -2,6 +2,8 @@ package trivia.manager;
 
 import java.util.LinkedList;
 
+import static trivia.Logger.log;
+
 public class QuestionManager {
     LinkedList popQuestions = new LinkedList();
     LinkedList scienceQuestions = new LinkedList();
@@ -47,5 +49,16 @@ public class QuestionManager {
 
     public Object removePop() {
         return popQuestions.removeFirst();
+    }
+
+    public void askQuestion(String currentCategory) {
+        if (currentCategory.equalsIgnoreCase("Pop"))
+            log(removePop());
+        if (currentCategory.equalsIgnoreCase("Science"))
+            log(removeScience());
+        if (currentCategory.equalsIgnoreCase("Sports"))
+            log(removeSports());
+        if (currentCategory.equalsIgnoreCase("Rock"))
+            log(removeRock());
     }
 }
