@@ -10,93 +10,91 @@ import static trivia.Logger.log;
 
 // REFACTOR ME
 public class GameBetter implements IGame {
-   MoveManager mManager = new MoveManager();
-   PlayerManager pManager = new PlayerManager(mManager);
-   QuestionManager qManager = new QuestionManager();
-   PlacesManager placesManager = new PlacesManager(mManager);
+   MoveManager moveMng = new MoveManager();
+   PlayerManager playerMng = new PlayerManager(moveMng);
+   QuestionManager questionMng = new QuestionManager();
+   PlacesManager placesMng = new PlacesManager(moveMng);
 
    public boolean add(String playerName) {
-      mManager.increaseMaxCurrentMoveLimit();
+      moveMng.increaseMaxMoveLimit();
 
       Player newPlayer = Player.builder().name(playerName).build();
-      pManager.addPlayer(newPlayer);
+      playerMng.addPlayer(newPlayer);
 
       log(playerName + " was added");
-      log("They are player number " + pManager.howManyPlayers());
+      log("They are player number " + playerMng.howManyPlayers());
       
       return true;
    }
 
    public void roll(int roll) {
-      log(pManager.getCurrent() + " is the current player");
+      log(playerMng.getCurrent() + " is the current player");
       log("They have rolled a " + roll);
 
-      int currentMove = mManager.getCurrentMove();
-      Player current = pManager.getCurrent();
+      Player currentPlayer = playerMng.getCurrent();
       
-      if (current.isInPenaltyBox()) {
+      if (currentPlayer.isInPenaltyBox()) {
          if (roll % 2 != 0) {
-            pManager.canPlayerEscapeFromJail(true);
+            playerMng.canPlayerEscapeFromJail(true);
 
-            log(pManager.getCurrent() + " is getting out of the penalty box");
-           placesManager.addRoledNumber(roll);
+           log(playerMng.getCurrent() + " is getting out of the penalty box");
+           placesMng.addRoledNumber(roll);
 
-            log(pManager.getCurrent() + "'s new location is " + placesManager.getCurrent());
-            log("The category is " + placesManager.getCurrentPlaceCategory());
-            qManager.askQuestion(placesManager.getCurrentPlaceCategory());
+            log(playerMng.getCurrent() + "'s new location is " + placesMng.getCurrent());
+            log("The category is " + placesMng.getCurrentPlaceCategory());
+            questionMng.askQuestion(placesMng.getCurrentPlaceCategory());
          } else {
-            log(pManager.getCurrent() + " is not getting out of the penalty box");
-            pManager.canPlayerEscapeFromJail(false);
+            log(playerMng.getCurrent() + " is not getting out of the penalty box");
+            playerMng.canPlayerEscapeFromJail(false);
          }
 
       } else {
-         placesManager.addRoledNumber(roll);
+         placesMng.addRoledNumber(roll);
 
-         log(pManager.getCurrent() + "'s new location is " +  placesManager.getCurrent());
-         log("The category is " + placesManager.getCurrentPlaceCategory());
-         qManager.askQuestion(placesManager.getCurrentPlaceCategory());
+         log(playerMng.getCurrent() + "'s new location is " +  placesMng.getCurrent());
+         log("The category is " + placesMng.getCurrentPlaceCategory());
+         questionMng.askQuestion(placesMng.getCurrentPlaceCategory());
       }
 
    }
 
    public boolean wasCorrectlyAnswered() {
-      Player player = pManager.getCurrent();
+      Player player = playerMng.getCurrent();
 
       if (player.isInPenaltyBox()) {
-         if (pManager.isGettingOutOfPenaltyBox()) {
+         if (playerMng.isGettingOutOfPenaltyBox()) {
             log("Answer was correct!!!!");
             player.purseIncrement();
-            log(pManager.getCurrent() + " now has " + player.getPurse() + " Gold Coins.");
+            log(playerMng.getCurrent() + " now has " + player.getPurse() + " Gold Coins.");
 
-            boolean winner = pManager.didCurrentPlayerWin();
+            boolean winner = playerMng.didCurrentPlayerWin();
 
-            mManager.next();
+            moveMng.next();
             return winner;
          } else {
-            mManager.next();
+            moveMng.next();
             return true;
          }
       } else {
          log("Answer was corrent!!!!");
          player.purseIncrement();
-         log(pManager.getCurrent() + " now has " + player.getPurse() + " Gold Coins.");
+         log(playerMng.getCurrent() + " now has " + player.getPurse() + " Gold Coins.");
 
-         boolean winner = pManager.didCurrentPlayerWin();
+         boolean winner = playerMng.didCurrentPlayerWin();
 
-         mManager.next();
+         moveMng.next();
          return winner;
       }
    }
 
    public boolean wrongAnswer() {
       log("Question was incorrectly answered");
-      log(pManager.getCurrent() + " was sent to the penalty box");
+      log(playerMng.getCurrent() + " was sent to the penalty box");
 
-      int currentMove = mManager.getCurrentMove();
-      Player current = pManager.getCurrent();
+      Player current = playerMng.getCurrent();
       current.setInPenaltyBox(true);
 
-      mManager.next();
+      moveMng.next();
       return true;
    }
 }
