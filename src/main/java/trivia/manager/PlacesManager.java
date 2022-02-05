@@ -2,17 +2,13 @@ package trivia.manager;
 
 public class PlacesManager {
     
-    private final MoveManager moveManager;
+    private final StepManager stepManager;
     // private List<Integer> places = new ArrayList();
     int[] places = new int[6];
 
-    public PlacesManager(MoveManager moveManager) {
-        this.moveManager = moveManager;
+    public PlacesManager(StepManager stepManager) {
+        this.stepManager = stepManager;
     }
-
-//    public void addEmptyPlace() {
-//        places.add(0);
-//    }
 
     public String getCurrentPlaceCategory() {
         if (getCurrent() == 0) return "Pop";
@@ -28,16 +24,15 @@ public class PlacesManager {
     }
 
     public void addRoledNumber(int roll) {
-        int currentMove = moveManager.getCurrentMove();
+        int currentMove = stepManager.getCurrentStep();
 
         places[currentMove] = places[currentMove] + roll;
         if (places[currentMove] > 11) places[currentMove] = places[currentMove] - 12;
 
     }
 
-
     public int getCurrent() {
-        int currentMove = moveManager.getCurrentMove();
+        int currentMove = stepManager.getCurrentStep();
         return places[currentMove];
     }
 }

@@ -7,36 +7,27 @@ import java.util.List;
 
 public class PlayerManager {
     List<Player> players = new ArrayList<>();
-    MoveManager moveManager;
+    StepManager stepManager;
 
-    boolean isGettingOutOfPenaltyBox;
-
-    public PlayerManager(MoveManager moveManager) {
-        this.moveManager = moveManager;
+    public PlayerManager(StepManager stepManager) {
+        this.stepManager = stepManager;
     }
 
     public int howManyPlayers() {
         return players.size();
     }
 
-    public Player getCurrent() {
-        return players.get(moveManager.getCurrentMove());
+    public Player getCurrentPlayer() {
+        return players.get(stepManager.getCurrentStep());
     }
 
-    public void addPlayer(Player player) {
-        players.add(player);
+    public void addPlayer(String playerName) {
+        Player newPlayer = Player.builder().name(playerName).build();
+        players.add(newPlayer);
     }
 
     public boolean didCurrentPlayerWin() {
-        Player current = getCurrent();
+        Player current = getCurrentPlayer();
         return !(current.getPurse() == 6);
-    }
-
-    public void canPlayerEscapeFromJail(boolean b) {
-        isGettingOutOfPenaltyBox = b;
-    }
-
-    public boolean isGettingOutOfPenaltyBox() {
-        return isGettingOutOfPenaltyBox;
     }
 }
