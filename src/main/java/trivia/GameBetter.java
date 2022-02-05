@@ -1,48 +1,32 @@
 package trivia;
 
+import trivia.model.Player;
+import trivia.model.PlayerManager;
+import trivia.model.QuestionManager;
+
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.List;
 
 // REFACTOR ME
 public class GameBetter implements IGame {
-   ArrayList players = new ArrayList();
+   List<Player> players = new ArrayList<>();
+   QuestionManager qManager = new QuestionManager();
+   
    int[] places = new int[6];
    int[] purses = new int[6];
    boolean[] inPenaltyBox = new boolean[6];
-
-   LinkedList popQuestions = new LinkedList();
-   LinkedList scienceQuestions = new LinkedList();
-   LinkedList sportsQuestions = new LinkedList();
-   LinkedList rockQuestions = new LinkedList();
-
+   
    int currentPlayer = 0;
    boolean isGettingOutOfPenaltyBox;
 
-   public GameBetter() {
-      for (int i = 0; i < 50; i++) {
-         popQuestions.addLast("Pop Question " + i);
-         scienceQuestions.addLast(("Science Question " + i));
-         sportsQuestions.addLast(("Sports Question " + i));
-         rockQuestions.addLast(createRockQuestion(i));
-      }
-   }
-
-   public String createRockQuestion(int index) {
-      return "Rock Question " + index;
-   }
-
-   public boolean isPlayable() {
-      return (howManyPlayers() >= 2);
-   }
-
    public boolean add(String playerName) {
-      players.add(playerName);
+      players.add(Player.builder().name(playerName).build());
       places[howManyPlayers()] = 0;
       purses[howManyPlayers()] = 0;
       inPenaltyBox[howManyPlayers()] = false;
 
       System.out.println(playerName + " was added");
-      System.out.println("They are player number " + players.size());
+      System.out.println("They are player number " + howManyPlayers());
       return true;
    }
 
@@ -88,13 +72,13 @@ public class GameBetter implements IGame {
 
    private void askQuestion() {
       if (currentCategory() == "Pop")
-         System.out.println(popQuestions.removeFirst());
+         System.out.println(qManager.removePop());
       if (currentCategory() == "Science")
-         System.out.println(scienceQuestions.removeFirst());
+         System.out.println(qManager.removeScience());
       if (currentCategory() == "Sports")
-         System.out.println(sportsQuestions.removeFirst());
+         System.out.println(qManager.removeSports());
       if (currentCategory() == "Rock")
-         System.out.println(rockQuestions.removeFirst());
+         System.out.println(qManager.removeRock());
    }
 
 
@@ -123,12 +107,12 @@ public class GameBetter implements IGame {
 
             boolean winner = didPlayerWin();
             currentPlayer++;
-            if (currentPlayer == players.size()) currentPlayer = 0;
+            if (currentPlayer == howManyPlayers()) currentPlayer = 0;
 
             return winner;
          } else {
             currentPlayer++;
-            if (currentPlayer == players.size()) currentPlayer = 0;
+            if (currentPlayer == howManyPlayers()) currentPlayer = 0;
             return true;
          }
 
@@ -144,7 +128,7 @@ public class GameBetter implements IGame {
 
          boolean winner = didPlayerWin();
          currentPlayer++;
-         if (currentPlayer == players.size()) currentPlayer = 0;
+         if (currentPlayer == howManyPlayers()) currentPlayer = 0;
 
          return winner;
       }
@@ -156,7 +140,7 @@ public class GameBetter implements IGame {
       inPenaltyBox[currentPlayer] = true;
 
       currentPlayer++;
-      if (currentPlayer == players.size()) currentPlayer = 0;
+      if (currentPlayer == howManyPlayers()) currentPlayer = 0;
       return true;
    }
 
