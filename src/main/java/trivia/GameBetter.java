@@ -45,9 +45,7 @@ public class GameBetter implements IGame {
             places[currentMove] = places[currentMove] + roll;
             if (places[currentMove] > 11) places[currentMove] = places[currentMove] - 12;
 
-            log(pManager.getCurrent()
-                               + "'s new location is "
-                               + places[currentMove]);
+            log(pManager.getCurrent() + "'s new location is " + places[currentMove]);
             log("The category is " + currentCategory());
             qManager.askQuestion(currentCategory());
          } else {
@@ -60,9 +58,7 @@ public class GameBetter implements IGame {
          places[currentMove] = places[currentMove] + roll;
          if (places[currentMove] > 11) places[currentMove] = places[currentMove] - 12;
 
-         log(pManager.getCurrent()
-                            + "'s new location is "
-                            + places[currentMove]);
+         log(pManager.getCurrent() + "'s new location is " + places[currentMove]);
          log("The category is " + currentCategory());
          qManager.askQuestion(currentCategory());
       }
@@ -90,11 +86,8 @@ public class GameBetter implements IGame {
       if (player.isInPenaltyBox()) {
          if (isGettingOutOfPenaltyBox) {
             log("Answer was correct!!!!");
-            player.addToPurse();
-            log(pManager.getCurrent()
-                               + " now has "
-                               + player.getPurse()
-                               + " Gold Coins.");
+            player.purseIncrement();
+            log(pManager.getCurrent() + " now has " + player.getPurse() + " Gold Coins.");
 
             boolean winner = didPlayerWin();
 
@@ -107,13 +100,9 @@ public class GameBetter implements IGame {
 
 
       } else {
-
          log("Answer was corrent!!!!");
-         player.addToPurse();
-         log(pManager.getCurrent()
-                            + " now has "
-                            + player.getPurse()
-                            + " Gold Coins.");
+         player.purseIncrement();
+         log(pManager.getCurrent() + " now has " + player.getPurse() + " Gold Coins.");
 
          boolean winner = didPlayerWin();
 
@@ -125,6 +114,7 @@ public class GameBetter implements IGame {
    public boolean wrongAnswer() {
       log("Question was incorrectly answered");
       log(pManager.getCurrent() + " was sent to the penalty box");
+
       int currentMove = mManager.getCurrentMove();
       Player current = pManager.getCurrent();
       current.setInPenaltyBox(true);
